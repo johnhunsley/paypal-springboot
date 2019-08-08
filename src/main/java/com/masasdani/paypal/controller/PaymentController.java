@@ -40,7 +40,7 @@ public class PaymentController {
 		String cancelUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_CANCEL_URL;
 		String successUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_SUCCESS_URL;
 		try {
-			Payment payment = paypalService.createPayment(
+			Payment payment = paypalService.createPayment("12345",
 					4.00, 
 					"USD", 
 					PaypalPaymentMethod.paypal, 
@@ -69,6 +69,7 @@ public class PaymentController {
 		try {
 			Payment payment = paypalService.executePayment(paymentId, payerId);
 			if(payment.getState().equals("approved")){
+				System.out.println("pyment made for ref number "+payment.getTransactions().get(0).getCustom());
 				return "success";
 			}
 		} catch (PayPalRESTException e) {

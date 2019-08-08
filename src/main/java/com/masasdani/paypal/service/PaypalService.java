@@ -26,6 +26,7 @@ public class PaypalService {
 	private APIContext apiContext;
 	
 	public Payment createPayment(
+			String memberId,
 			Double total, 
 			String currency, 
 			PaypalPaymentMethod method, 
@@ -40,6 +41,7 @@ public class PaypalService {
 
 		Transaction transaction = new Transaction();
 		transaction.setDescription(description);
+		transaction.setCustom(memberId);
 		transaction.setAmount(amount);
 
 		List<Transaction> transactions = new ArrayList<>();
@@ -52,6 +54,7 @@ public class PaypalService {
 		payment.setIntent(intent.toString());
 		payment.setPayer(payer);
 		payment.setTransactions(transactions);
+
 		RedirectUrls redirectUrls = new RedirectUrls();
 		redirectUrls.setCancelUrl(cancelUrl);
 		redirectUrls.setReturnUrl(successUrl);
